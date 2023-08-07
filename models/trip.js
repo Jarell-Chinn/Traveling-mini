@@ -2,14 +2,15 @@
 const { Model, DataTypes } = require('sequelize');
 // import our database connection from config.js
 const sequelize = require('../config/connection');
-
+const Traveller = require('./traveller');
+const Location = require('./location');
 
 
 // Initialize Product model (table) by extending off Sequelize's Model class
-class Location extends Model {}
+class Trip extends Model {}
 
-// set up fields and rules for Location model
-Location.init(
+// set up fields and rules for Trip model
+Trip.init(
   {
    
     id: {
@@ -18,12 +19,21 @@ Location.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
-      type: DataTypes.STRING,
+    trip_budget: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
-     
-  
+     traveller_amount: {
+        type: DataTypes.INTEGER,
+     },
+     traveller_id:{
+        type: DataTypes.INTEGER,
+        references: {model: Traveller, key:'id'}
+     },
+     location_id:{
+        type: DataTypes.INTEGER,
+        references: {model: Location, key:'id'}
+     },
 
 
     
@@ -34,8 +44,8 @@ Location.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'location',
+    modelName: 'trip',
   }
 );
 
-module.exports = Location;
+module.exports = Trip;
